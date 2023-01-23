@@ -1,0 +1,12 @@
+{
+    "user": [
+        {
+            "nombre": "Xavier",
+            "canal": "ProgramadorX"
+        },
+        {
+            "nombre": "Nicolas",
+            "canal": "Hola Mundo"
+        }
+    ]
+}

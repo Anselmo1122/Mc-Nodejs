@@ -1,0 +1,32 @@
+export const USERS_BBDD = [
+  {
+    guid: "852024ff-2e76-40fd-8ac9-ecfbaa699669",
+    name: "Young Duke",
+    email: "youngduke@ecolight.com",
+    password: "test12345",
+    role: "user",
+    isActive: false,
+    balance: "$1,888.48",
+    age: 21,
+    eyeColor: "brown",
+    company: "ECOLIGHT",
+    phone: "(923) 447-3753",
+    address: "219 Newkirk Placez, Brutus, Kansas, 7217",
+    registered: "2015-08-21T05:43:32 2",
+  },
+  {
+    guid: "d4246fbf-06b8-4f27-b116-82698731308c",
+    name: "Debora Porter",
+    email: "deboraporter@podunk.com",
+    password: "test12345",
+    role: "admin",
+    isActive: true,
+    balance: "$2,426.62",
+    age: 35,
+    eyeColor: "blue",
+    company: "PODUNK",
+    phone: "(934) 493-3951",
+    address: "392 Olive Street, Kennedyville, Mississippi, 2416",
+    registered: "2018-03-01T11:57:43 2",
+  }
+];
