@@ -1,8 +1,9 @@
 
 # Archivos de Node
-
 node_modules
 
 # Archivos .env
-
 .env
+
+# Salidas
+out/*.txt
