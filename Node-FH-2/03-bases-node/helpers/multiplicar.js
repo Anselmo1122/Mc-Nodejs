@@ -18,8 +18,8 @@ const crearArchivo = (unidad = 5, limite = 10, listar = false) => {
       let data = "";
 
       for (let i = 0; i <= limite; i++) {
-        consola += `      ${String(unidad).blue} x ${i} = ${`${unidad * i}`.cyan}\n`;
-        data += `      ${unidad} x ${i} = ${unidad * i}\n`;
+        data += `      ${String(unidad).blue} x ${i} = ${`${unidad * i}`.cyan}\n`;
+        consola += `      ${unidad} x ${i} = ${unidad * i}\n`;
       }
 
 
@@ -27,7 +27,7 @@ const crearArchivo = (unidad = 5, limite = 10, listar = false) => {
         console.log("\n ======================".zebra)
         console.log(`     Tabla del ${unidad} `)
         console.log(" ======================\n".zebra)
-        console.log(data.green)
+        console.log(data)
         console.log("\n ======================\n".zebra)
       }
 
