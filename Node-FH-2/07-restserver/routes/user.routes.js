@@ -1,4 +1,5 @@
-const { Router } = require("express");
+const userRouter = require("express").Router();
+const { check } = require("express-validator");
 const {
 	userGet,
 	userPost,
@@ -7,16 +8,42 @@ const {
 	userDelete,
 } = require("../controllers/user.controller");
 
-const userRouter = Router();
+const { isRoleValid, existEmail, existUserById } = require("../helpers/dbValidators");
+const validateFields = require("../middlewares/validateFields");
 
 userRouter.get("/", userGet);
 
-userRouter.post("/", userPost);
+userRouter.post(
+	"/",
+	[
+		check("name", "El nombre es obligatorio").not().isEmpty(),
+		check("password", "El password debe tener más de 6 letras").isLength({
+			min: 6,
+		}),
+		// check("email", "El correo no es válido").isEmail(),
+		check("email", "El correo no es válido").custom( existEmail ).isEmail(),
+		// check('role', 'No es un rol válido').isIn(['ADMIN_ROLE', 'USER_ROLE']),
+		// Creamos una base de datos para los roles
+		// Utilizamos un model de datos para registrar y validar el "role" del usuario
+		check("role").custom( isRoleValid ),
+		validateFields,
+	],
+	userPost
+);
 
-userRouter.put("/:id", userPut);
+userRouter.put("/:id",[
+	check("id", "No es un id válido.").isMongoId(),
+	check("id").custom( existUserById ),
+	check("role").custom( isRoleValid ),
+	validateFields,
+], userPut);
 
 userRouter.patch("/", userPatch);
 
-userRouter.delete("/", userDelete);
+userRouter.delete("/:id", [
+	check("id", "No es un id válido.").isMongoId(),
+	check("id").custom( existUserById ),
+	validateFields,
+], userDelete);
 
 module.exports = userRouter;
