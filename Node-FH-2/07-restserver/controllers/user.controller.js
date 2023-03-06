@@ -47,7 +47,7 @@ const userPost = async (req = request, res = response) => {
 
 const userPut = async (req = request, res = response) => {
 	const { id } = req.params;
-  const {	_id, password, email, ...rest } = req.body;
+  const {	password, email, ...rest } = req.body;
 
   if ( password ) {
     const salt = bcrypt.genSaltSync();
@@ -72,15 +72,16 @@ const userDelete = async (req, res = response) => {
 
 	const { id } = req.params;
 
-	// Usuario eliminado de de forma permanente
-	// const user = await UserModel.findByIdAndDelete(id)
-
 	// Usuario eliminado cambiando su "state" a "false"
   const user = await UserModel.findByIdAndUpdate(id, { state: false });
+	
+	// Usuario eliminado de de forma permanente
+	const userAuthorized = req.user; 
 
 	res.json({
 		message: "DELETE API - Controller",
 		user,
+		userAuthorized
 	});
 }
 

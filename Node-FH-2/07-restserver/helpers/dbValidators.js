@@ -10,6 +10,15 @@ const existEmail = async (email = "") => {
 	const emailExist = await UserModel.findOne({ email });
 	if (emailExist) throw new Error(`El email ${email} ya está registrado`);
 };
+const existEmailLogin = async (email = "") => {
+	const emailExist = await UserModel.findOne({ email });
+	if (!emailExist) throw new Error(`El email ${email} no está registrado`);
+};
+
+const isUserActive = async (email) => {
+	const isActive = await UserModel.findOne({ email, state: true });
+	if (!isActive) throw new Error(`El usuario está inactivo.`);
+}
 
 const existUserById = async (id) => {
 	const existUser = await UserModel.findById(id);
@@ -19,5 +28,7 @@ const existUserById = async (id) => {
 module.exports = {
 	isRoleValid,
 	existEmail,
+	existEmailLogin,
+	isUserActive,
 	existUserById,
 };

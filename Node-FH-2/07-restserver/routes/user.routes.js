@@ -1,5 +1,7 @@
 const userRouter = require("express").Router();
 const { check } = require("express-validator");
+
+// ------ Controllers
 const {
 	userGet,
 	userPost,
@@ -8,9 +10,21 @@ const {
 	userDelete,
 } = require("../controllers/user.controller");
 
-const { isRoleValid, existEmail, existUserById } = require("../helpers/dbValidators");
-const validateFields = require("../middlewares/validateFields");
+// ------ Middlewares
+const {
+	validateFields,
+	validateJWT,
+	hasRole,
+}	= require("../middlewares");
 
+// ------ Helpers
+const { 
+	isRoleValid, 
+	existEmail, 
+	existUserById 
+} = require("../helpers/dbValidators");
+
+// ------ Endpoints
 userRouter.get("/", userGet);
 
 userRouter.post(
@@ -41,6 +55,9 @@ userRouter.put("/:id",[
 userRouter.patch("/", userPatch);
 
 userRouter.delete("/:id", [
+	validateJWT,
+	// validateRole,
+	hasRole("ADMIN_ROLE"),
 	check("id", "No es un id válido.").isMongoId(),
 	check("id").custom( existUserById ),
 	validateFields,
