@@ -19,13 +19,14 @@ const userSchema = new Schema({
   },
   role: {
     type: String,
+    default: "USER_ROLE",
     required: true,
   },
   state: {
     type: Boolean,
     default: true
   },
-  google: {
+  facebook: {
     type: Boolean,
     default: false
   },

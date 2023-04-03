@@ -1,7 +1,7 @@
 const authRouter = require("express").Router();
 
 const { check } = require("express-validator");
-const { authPost } = require("../controllers/auth.controller");
+const { authPost, authFacebook } = require("../controllers/auth.controller");
 
 const validateFields = require("../middlewares/validateFields");
 
@@ -14,5 +14,10 @@ authRouter.post("/login", [
   check("password", "El password es obligatorio.").not().isEmpty(),
   validateFields
 ], authPost);
+
+authRouter.post("/facebook", [
+  check("fb_token", "Token de facebook necesario.").not().isEmpty(), 
+  validateFields
+],authFacebook);
 
 module.exports = authRouter;

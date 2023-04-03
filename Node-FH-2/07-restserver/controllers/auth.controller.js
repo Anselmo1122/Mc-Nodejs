@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 
 const UserModel = require("../models/user.model");
 const generateJWT = require("../helpers/generateJWT");
+const facebookVerify = require("../helpers/facebookVerify");
 
 const authPost = async (req = request, res = response) => {
 	const { email, password } = req.body;
@@ -33,6 +34,53 @@ const authPost = async (req = request, res = response) => {
 	}
 };
 
+const authFacebook = async (req, res) => {
+	const { fb_token } = req.body; 
+
+	try {
+		
+		const { name, email, picture } = await facebookVerify(fb_token);
+
+		let user = await UserModel.findOne({ email });
+
+		if (!user) {
+
+			// Si no existe lo creamos.
+			const data = {
+				name,
+				email,
+				img: picture.data.url,
+				password: ":P",
+				facebook: true,
+			}
+
+			user = new UserModel( data );
+			await user.save();
+		}
+
+		if ( !user.state ) {
+			return res.status(401).json({
+				message: "Hable con el administrador, usuario bloqueado."
+			})
+		}
+
+		// Generar JWT.
+		const token = await generateJWT(user.id);
+
+		return res.status(200).json({
+			user,
+			token
+		})
+
+	} catch (error) {
+		return res.status(400).json({
+			message: "Token no verificado",
+			error,
+		})
+	}
+}
+
 module.exports = {
 	authPost,
+	authFacebook
 };
