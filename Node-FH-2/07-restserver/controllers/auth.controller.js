@@ -15,7 +15,7 @@ const authPost = async (req = request, res = response) => {
 		const isValidPassword = bcrypt.compareSync(password, user.password);
 		if (!isValidPassword)
 			return res.status(400).json({
-				message: "La contraseña es incorrecta.",
+				message: "La contraseña es incorrecta",
 			});
 
 		// Generar JWT.
@@ -35,16 +35,14 @@ const authPost = async (req = request, res = response) => {
 };
 
 const authFacebook = async (req, res) => {
-	const { fb_token } = req.body; 
+	const { fb_token } = req.body;
 
 	try {
-		
 		const { name, email, picture } = await facebookVerify(fb_token);
 
 		let user = await UserModel.findOne({ email });
 
 		if (!user) {
-
 			// Si no existe lo creamos.
 			const data = {
 				name,
@@ -52,16 +50,16 @@ const authFacebook = async (req, res) => {
 				img: picture.data.url,
 				password: ":P",
 				facebook: true,
-			}
+			};
 
-			user = new UserModel( data );
+			user = new UserModel(data);
 			await user.save();
 		}
 
-		if ( !user.state ) {
+		if (!user.state) {
 			return res.status(401).json({
-				message: "Hable con el administrador, usuario bloqueado."
-			})
+				message: "Hable con el administrador, usuario bloqueado.",
+			});
 		}
 
 		// Generar JWT.
@@ -69,18 +67,17 @@ const authFacebook = async (req, res) => {
 
 		return res.status(200).json({
 			user,
-			token
-		})
-
+			token,
+		});
 	} catch (error) {
 		return res.status(400).json({
 			message: "Token no verificado",
 			error,
-		})
+		});
 	}
-}
+};
 
 module.exports = {
 	authPost,
-	authFacebook
+	authFacebook,
 };

@@ -8,12 +8,16 @@ class Server {
 		this.port = process.env.PORT;
 
 		// Routes paths
-		this.userPath = "/api/user";
-		this.authPath = "/api/auth";
-
+		this.paths = {
+			auth: "/api/auth",
+			categories: "/api/categories",
+			products: "/api/products",
+			user: "/api/user",
+			search: "/api/search",
+		};
 
 		// Conectar a base de datos
-		this.conectarDB()
+		this.conectarDB();
 
 		// Middlewares
 		this.middlewares();
@@ -23,23 +27,26 @@ class Server {
 	}
 
 	async conectarDB() {
-		await dbConnection()
+		await dbConnection();
 	}
 
 	middlewares() {
 		// CORS
 		this.app.use(cors());
 
-    // Lectura y parseo del body
-    this.app.use(express.json());
+		// Lectura y parseo del body
+		this.app.use(express.json());
 
 		// Directorio público
 		this.app.use(express.static("public"));
 	}
 
 	routes() {
-		this.app.use(this.userPath, require("../routes/user.routes"));
-		this.app.use(this.authPath, require("../routes/auth.routes"));
+		this.app.use(this.paths.user, require("../routes/user.routes"));
+		this.app.use(this.paths.categories, require("../routes/categories.routes"));
+		this.app.use(this.paths.auth, require("../routes/auth.routes"));
+		this.app.use(this.paths.products, require("../routes/products.routes"));
+		this.app.use(this.paths.search, require("../routes/search.routes"));
 	}
 
 	listen() {
