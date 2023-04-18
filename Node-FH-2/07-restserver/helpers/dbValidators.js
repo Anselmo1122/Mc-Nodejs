@@ -37,6 +37,12 @@ const existProductById = async (id) => {
 	if (!existProduct) throw new Error(`El producto con el id ${id} no existe`);
 };
 
+const isCollectionValid = (collection = "", validCollections = []) => {
+	const includes = validCollections.includes(collection);
+	if ( !includes ) throw new Error(`Colección no permitida, esta debe ser: ${validCollections}`);
+	return true;
+}
+
 module.exports = {
 	isRoleValid,
 	existEmail,
@@ -44,5 +50,6 @@ module.exports = {
 	isUserActive,
 	existUserById,
 	existCategoryById,
-	existProductById
+	existProductById,
+	isCollectionValid
 };

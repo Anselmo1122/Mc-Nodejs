@@ -10,7 +10,6 @@ const collectionsAllowed = [
   "users",
   "products",
   "categories",
-  "roles"
 ]
 
 // ------ Búsqueda en colección de usuarios
@@ -101,9 +100,6 @@ const search = async (req = request, res = response) => {
       return searchProductsCollection(term, res);
     case "categories":
       return searchCategoriesCollection(term, res);
-    case "roles":
-      
-      break;
     default:
       res.status(500).json({
         message: "Se te ha olvidado agregar la búsqueda a esta colección"

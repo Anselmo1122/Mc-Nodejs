@@ -25,6 +25,7 @@ const productSchema = new Schema({
 		required: true,
 	},
 	description: { type: String },
+	img: { type: String },
 	available: { type: Boolean, default: true },
 });
 

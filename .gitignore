@@ -5,5 +5,9 @@ node_modules
 # Archivos .env
 .env
 
+# Uploads files
+uploads/products/**.*
+uploads/user/**.*
+
 # Salidas
 out/*.txt
