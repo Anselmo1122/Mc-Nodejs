@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { UserModel } = require("../models");
 
 // Función para generar token de sesión
 const generateJWT = (uid = "") => {
